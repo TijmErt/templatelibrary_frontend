@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const GET_TEMPLATE_POST = gql(`
-  query GetTemplatePost($id: ID!) {
+  query GetTemplatePost($id: String!) {
     getTemplatePost(id: $id) {
       templatePost {
         id
@@ -32,4 +32,5 @@ export const GET_TEMPLATE_POST = gql(`
       }
     }
   }
+      ,
 `);

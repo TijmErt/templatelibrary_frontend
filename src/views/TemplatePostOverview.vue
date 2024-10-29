@@ -1,23 +1,28 @@
 <script lang="ts">
-import {defineComponent, ref} from 'vue'
-import {GET_TEMPLATE_POST} from '../graphql/templatePostGraphQL'
-import { useQuery } from '@vue/apollo-composable';
 
-const templatePostId = ref('jouw-template-post-id'); // vervang met de echte ID
-const { result: data, loading, error } = useQuery(GET_TEMPLATE_POST, {
-  id: templatePostId.value,
-});
-export default defineComponent({
-  name: 'TemplatePostOverview',
-})
+import { GET_TEMPLATE_POST } from '../graphql/templatePostGraphQL'
 
-interface TemplatePost{
+export default {
+  apollo: {
+    getTemplatePost: {
+      query: GET_TEMPLATE_POST,
+      variables: {
+        id: 'tempPost-id-1',
+      },
+    },
+  },
 
+  data() {
+    return {
+      getTemplatePost: '',
+    }
+  },
 }
 </script>
 
 <template>
   <h1>TemplateLibrary Searcher</h1>
+  <p>{{ getTemplatePost }}</p>
 </template>
 
 <style scoped></style>
