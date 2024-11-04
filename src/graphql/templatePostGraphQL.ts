@@ -12,7 +12,6 @@ export const GET_TEMPLATE_POST = gql(`
         author {
           id
           userName
-          email
         }
         reviews {
           id
@@ -22,6 +21,10 @@ export const GET_TEMPLATE_POST = gql(`
             id
             userName
           }
+        }
+        categories{
+          id
+          name
         }
       }
       documentModel {
