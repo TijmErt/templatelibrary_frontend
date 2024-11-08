@@ -6,13 +6,23 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('../views/TemplatePostOverview.vue'),
+      component: () => import('../views/TemplatePost/TemplatePostOverview.vue'),
     },
     {
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue'),
     },
+    {
+      path: '/Post/:id',
+      name: 'TemplatePost View',
+      component: () => import('../views/TemplatePost/TemplatePostView.vue'),
+    },
+    {
+      path:'/Post/Creation',
+      name:'TemplatePost Creator',
+      component: () => import("../views/TemplatePost/TemplatePostCreate.vue")
+    }
   ],
 })
 
