@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import { useQuery } from '@vue/apollo-composable'
-import { GET_TEMPLATE_POST } from '../../graphql/templatePostGraphQL'
-import { useRoute } from 'vue-router'
+import { ref, watch } from 'vue';
+import { useQuery } from '@vue/apollo-composable';
+import { GET_TEMPLATE_POST } from '../../graphql/templatePostGraphQL';
+import { useRoute } from 'vue-router';
+import apiClient from '../../axios';
 
-interface TemplatePostModel{
-  templatePost:{
+interface TemplatePost{
     id: string,
     title: string,
     description: string,
     createdDate: Date,
-    documentKey: string,
+    fileKey: string,
     author: {
       id: string,
       userName: string,
@@ -19,26 +19,35 @@ interface TemplatePostModel{
       id: string,
       name: string,
     }[]
-
-  },
-  documentModel:{
-    documentKey: string,
-    documentName: string,
-    documentType: string,
-    uploadDate: Date,
-  }
 }
-
+interface DocumentModel{
+  fileKey: string,
+  fileName: string,
+  fileType: string,
+  uploadDate: Date,
+  fileSize: string,
+  fileData: string,
+  }
 
 const route = useRoute()
-const getTemplatePost = ref<TemplatePostModel | null>(null)
+const getTemplatePost = ref<TemplatePost | null>(null)
+const documentModel = ref<DocumentModel | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
 
 const { result, loading: queryLoading, error: queryError  } = useQuery(GET_TEMPLATE_POST, {
   id:  route.params.id ,
 })
+const fetchPDF = async (filekey: string) => {
+  try {
 
+    const response = await apiClient.get(`/get/${filekey}`); // Replace '/endpoint' with your actual endpoint
+    documentModel.value = response.data;
+    console.log(documentModel.value);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
 // Update loading state
 watch(queryLoading, (value) => {
   loading.value = value
@@ -54,6 +63,9 @@ watch(queryError, (value) => {
 watch(result, value => {
   getTemplatePost.value = result.value.getTemplatePost
   console.log(value)
+  if(getTemplatePost.value){
+    fetchPDF(getTemplatePost.value.fileKey)
+  }
 })
 </script>
 <template>
@@ -68,17 +80,22 @@ watch(result, value => {
   </div>
 
   <div v-else-if="getTemplatePost">
-    <h2>{{ getTemplatePost.templatePost.title }}</h2>
-    <p>{{ getTemplatePost.templatePost.description }}</p>
-    <p>Author: {{ getTemplatePost.templatePost.author.userName }}</p>
-    <p>Created on: {{ getTemplatePost.templatePost.createdDate }}</p>
+    <h2>{{ getTemplatePost.title }}</h2>
+    <p>{{ getTemplatePost.description }}</p>
+    <p>Author: {{ getTemplatePost.author.userName }}</p>
+    <p>Created on: {{ getTemplatePost.createdDate }}</p>
     <br>
-    <p>{{ getTemplatePost.documentModel.documentName}}</p>
-    <p>{{ getTemplatePost.documentModel.documentType}}</p>
-    <p>{{ getTemplatePost.documentModel.uploadDate}}</p>
-    <div v-for="category in getTemplatePost.templatePost.categories" v-bind:key="category.id">
+    <div v-for="category in getTemplatePost.categories" v-bind:key="category.id">
       {{category.id}}
       {{category.name}}
+    </div>
+    <div v-if="documentModel">
+      <iframe
+        :src="documentModel.fileData"
+        width="100%"
+        height="500px"
+        frameborder="0"
+      ></iframe>
     </div>
   </div>
 </template>

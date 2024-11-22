@@ -8,9 +8,6 @@ interface TemplatePostInput {
   description: string,
   createdDate: string,
   authorId: string,
-
-  documentName: string,
-  documentType: string,
 }
 
 const inputModel = ref<TemplatePostInput>({
@@ -18,10 +15,6 @@ const inputModel = ref<TemplatePostInput>({
   description: '',
   createdDate: '',
   authorId: '',
-
-  documentName: '',
-  documentType: '',
-
 })
 const uploadedFile = ref<File | null>(null);
 
@@ -54,8 +47,6 @@ const submitForm = async () => {
     <input v-model="inputModel.title" placeholder="Title" required />
     <input v-model="inputModel.description" placeholder="Description" />
     <input v-model="inputModel.authorId" placeholder="Author ID" required />
-    <input type="text" v-model="inputModel.documentName" placeholder="Document Name" required />
-    <input type="text" v-model="inputModel.documentType" placeholder="Document Type" required />
     <input type="file" @change="onFileChange" required />
     <button type="submit">Create Post</button>
   </form>

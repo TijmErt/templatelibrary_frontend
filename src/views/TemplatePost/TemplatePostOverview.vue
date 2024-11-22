@@ -3,32 +3,24 @@ import { ref, watch } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
 import { GET_TEMPLATE_POST } from '../../graphql/templatePostGraphQL'
 
-interface TemplatePostModel{
-  templatePost:{
+interface TemplatePost{
+  id: string,
+  title: string,
+  description: string,
+  createdDate: Date,
+  fileKey: string,
+  author: {
     id: string,
-    title: string,
-    description: string,
-    createdDate: string,
-    documentKey: string,
-    author: {
-      id: string,
-      userName: string,
-    }
-    categories:{
-      id: string,
-      name: string,
-    }[]
+    userName: string,
   },
-  documentModel:{
-    documentKey: string,
-    documentName: string,
-    documentType: string,
-    uploadDate: string,
-  }
+  categories:{
+    id: string,
+    name: string,
+  }[]
 }
 
 // Define a reactive variable to store the result of the query
-const getTemplatePost = ref<TemplatePostModel | null>(null)
+const getTemplatePost = ref<TemplatePost | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
 
