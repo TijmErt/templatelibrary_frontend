@@ -4,7 +4,8 @@ import { useQuery } from '@vue/apollo-composable';
 import { GET_TEMPLATE_POST } from '../../graphql/templatePostGraphQL';
 import { useRoute } from 'vue-router';
 import apiClient from '../../axios';
-
+import { VuePDF, usePDF, type PDFSrc } from '@tato30/vue-pdf'
+import '@tato30/vue-pdf/style.css'
 interface TemplatePost{
     id: string,
     title: string,
@@ -20,30 +21,23 @@ interface TemplatePost{
       name: string,
     }[]
 }
-interface DocumentModel{
-  fileKey: string,
-  fileName: string,
-  fileType: string,
-  uploadDate: Date,
-  fileSize: string,
-  fileData: string,
-  }
-
 const route = useRoute()
 const getTemplatePost = ref<TemplatePost | null>(null)
-const documentModel = ref<DocumentModel | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
 
 const { result, loading: queryLoading, error: queryError  } = useQuery(GET_TEMPLATE_POST, {
   id:  route.params.id ,
 })
-const fetchPDF = async (filekey: string) => {
-  try {
+const givenPDF = ref<PDFSrc>()
+const { pdf } = usePDF(givenPDF)
 
-    const response = await apiClient.get(`/get/${filekey}`); // Replace '/endpoint' with your actual endpoint
-    documentModel.value = response.data;
-    console.log(documentModel.value);
+const fetchPDF = async (fileKey: string) => {
+  try {
+    const responseFile = await apiClient.get(`/get/${fileKey}`,{responseType:'blob' });
+    const arrayBuffer = await responseFile.data.arrayBuffer()
+    const byteArray = new Uint8Array(arrayBuffer);
+    givenPDF.value = byteArray
   } catch (error) {
     console.error('Error fetching data:', error);
   }
@@ -89,13 +83,10 @@ watch(result, value => {
       {{category.id}}
       {{category.name}}
     </div>
-    <div v-if="documentModel">
-      <iframe
-        :src="documentModel.fileData"
-        width="100%"
-        height="500px"
-        frameborder="0"
-      ></iframe>
+    <div v-if="givenPDF">
+      <VuePDF :pdf="pdf" :text-layer="true" annotation-layer>
+
+      </VuePDF>
     </div>
   </div>
 </template>
