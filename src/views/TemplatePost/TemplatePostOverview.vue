@@ -24,7 +24,6 @@ const getTemplatePost = ref<TemplatePost | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
 
-// Use the `useQuery` hook from `vue-apollo-composable` to fetch the data
 const { result, loading: queryLoading, error: queryError  } = useQuery(GET_TEMPLATE_POST, {
   id: 'tempPost-id-1',
 })
@@ -55,6 +54,9 @@ watch(result, value => {
 
   <div v-else-if="error">
     <p>Error: {{ error }}</p>
+  </div>
+  <div>
+    Well hello there every one
   </div>
 </template>
 
