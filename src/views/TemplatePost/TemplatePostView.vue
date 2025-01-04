@@ -33,7 +33,7 @@ const givenPDF = ref({})
 const { pdf, pages } = usePDF(givenPDF)
 const fetchPDF = async (fileKey: string) => {
   try {
-    const responseFile = await apiClient.get(`/get/${fileKey}`,{responseType:'blob' });
+    const responseFile = await apiClient.get(`/get/${fileKey}/pdf`,{responseType:'blob' });
     const arrayBuffer = await responseFile.data.arrayBuffer()
     const byteArray = new Uint8Array(arrayBuffer);
     givenPDF.value = byteArray
@@ -88,7 +88,7 @@ watch(result, value => {
     <div class="pdfContainer OrderLeft" >
       <div v-if="givenPDF" >
         <div v-for="page in pages" :key="page">
-          <VuePDF :pdf="pdf" :page="page" :text-layer="true" :annotation-layer="true" fit-parent/>
+          <VuePDF class="vue-pdf" :pdf="pdf" :page="page" :text-layer="true" :annotation-layer="true" fit-parent/>
         </div>
       </div>
     </div>

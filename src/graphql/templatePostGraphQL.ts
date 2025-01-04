@@ -1,5 +1,37 @@
 import gql from 'graphql-tag';
 
+export const GET_FILTERED_TEMPLATE_POST = gql(`
+query getFilteredTemplatePosts ($pageInfo: PageInfoInput, $searchTerm: String){
+  getFilteredTemplatePosts(pageInfo:$pageInfo, searchTerm:$searchTerm ){
+    posts{
+      id
+      title
+      description
+      createdDate
+      avgRating
+      author{
+        id
+        userName
+      }
+      categories{
+        name
+      }
+    }
+    pageInfo{
+      limit
+      page
+      total
+      totalPages
+      sortField
+      sortOrder
+      hasNextPage
+      hasPreviousPage
+    }
+  }
+}
+`)
+
+
 export const GET_TEMPLATE_POST = gql(`
  query GetTemplatePost($id: String!) {
   getTemplatePost(id: $id) {

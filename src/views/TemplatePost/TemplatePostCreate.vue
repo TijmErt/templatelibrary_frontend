@@ -58,10 +58,8 @@ const validateField = (field: keyof Errors): void => {
       errors.value.description = ''
     }
   } else if (field === 'file') {
-    const allowedFileTypes = [
-      'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      'application/vnd.oasis.opendocument.text',
+    const allowedFileTypes = [,
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document', ,
       'application/pdf',
     ]
     if (!uploadedFile.value) {
@@ -147,7 +145,7 @@ const submitForm = async () => {
         type="file"
         @change="onFileChange"
         required
-        accept="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.oasis.opendocument.text, application/pdf"
+        accept=" application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf"
       />
       <span v-if="errors.file" class="error">{{ errors.file }}</span>
     </div>
