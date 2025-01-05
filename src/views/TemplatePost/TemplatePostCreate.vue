@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useMutation } from '@vue/apollo-composable'
 import { CREATE_TEMPLATE_POST } from '../../graphql/templatePostGraphQL'
+import router from '@/router'
 
 interface TemplatePostInput {
   title: string
@@ -73,7 +74,7 @@ const validateField = (field: keyof Errors): void => {
   }
 }
 
-const { mutate: createTemplatePost } = useMutation(CREATE_TEMPLATE_POST)
+const { mutate: createTemplatePost , } = useMutation(CREATE_TEMPLATE_POST)
 const submitForm = async () => {
   validateField('title')
   validateField('description')
@@ -92,11 +93,16 @@ const submitForm = async () => {
     const formattedDate = date.toISOString().split('T')[0]
     inputModel.value.createdDate = formattedDate
     try {
-      await createTemplatePost({
+      const result = await createTemplatePost({
         input: inputModel.value,
         file: uploadedFile.value,
       })
-      console.log('Post succesvol aangemaakt!')
+
+      const postId = result?.data.createTemplatePost;
+      if (postId){
+        console.log('Post succesvol aangemaakt!')
+        await router.push({ name: 'TemplatePost View', params: { id: postId } })
+      }
     } catch (error) {
       console.error('Fout tijdens het maken van post:', error)
     }

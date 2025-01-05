@@ -26,9 +26,9 @@ const getTemplatePost = ref<TemplatePost | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
 
-const { result, loading: queryLoading, error: queryError  } = useQuery(GET_TEMPLATE_POST, {
+const { result, loading: queryLoading, error: queryError,  } = useQuery(GET_TEMPLATE_POST, {
   id:  route.params.id ,
-})
+},{fetchPolicy:'cache-and-network'})
 const givenPDF = ref({})
 const { pdf, pages } = usePDF(givenPDF)
 const fetchPDF = async (fileKey: string) => {

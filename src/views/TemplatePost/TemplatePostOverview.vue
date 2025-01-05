@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
 import { GET_FILTERED_TEMPLATE_POST } from '../../graphql/templatePostGraphQL'
+import router from '@/router'
 
 interface TemplatePost{
   id: string,
@@ -47,7 +48,8 @@ const error = ref<string | null>(null)
 const { result,refetch, loading: queryLoading, error: queryError  } = useQuery(GET_FILTERED_TEMPLATE_POST, {
   pageInfo: pageInfo.value,
   searchTerm:""
-})
+},{fetchPolicy:'cache-and-network'}
+  )
 
 // Update loading state
 watch(queryLoading, (value) => {
@@ -94,6 +96,9 @@ const previousPage = () => {
     refetch({ pageInfo: PageInfoInput.value, searchTerm: "" })
   }
 }
+const goToPost = (postId: string) =>{
+  router.push({ name: 'TemplatePost View', params: { id: postId } });
+}
 </script>
 <template>
   <h1>Template Library Searcher</h1>
@@ -106,7 +111,7 @@ const previousPage = () => {
     <p>Error: {{ error }}</p>
   </div>
   <div v-else-if="result" class="postsBox">
-    <div v-for="post in Posts" :key="post.id" class="postContainer">
+    <div v-for="post in Posts" :key="post.id" class="postContainer" @click.left="goToPost(post.id)">
       <!-- You can display the properties of each post here -->
       <h2>{{ post.title }}</h2>
       <p>Rating: {{ post.avgRating }}</p>
