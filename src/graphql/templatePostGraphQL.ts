@@ -1,75 +1,68 @@
 import gql from 'graphql-tag';
 
-export const GET_TEMPLATE_POST = gql(`
-  query GetTemplatePost($id: String!) {
-    getTemplatePost(id: $id) {
-      templatePost {
+export const GET_FILTERED_TEMPLATE_POST = gql(`
+query getFilteredTemplatePosts ($pageInfo: PageInfoInput, $searchTerm: String){
+  getFilteredTemplatePosts(pageInfo:$pageInfo, searchTerm:$searchTerm ){
+    posts{
+      id
+      title
+      description
+      createdDate
+      avgRating
+      author{
         id
-        title
-        description
-        createdDate
-        documentKey
-        author {
-          id
-          userName
-        }
-        reviews {
-          id
-          content
-          rating
-          author {
-            id
-            userName
-          }
-        }
-        categories{
-          id
-          name
-        }
+        userName
       }
-      documentModel {
-        documentKey
-        documentName
-        documentType
-        uploadDate
+      categories{
+        name
       }
+    }
+    pageInfo{
+      limit
+      page
+      total
+      totalPages
+      sortField
+      sortOrder
+      hasNextPage
+      hasPreviousPage
     }
   }
-`);
+}
+`)
 
-export const CREATE_TEMPLATE_POST = gql(`
-mutation CreateTemplatePost($input: TemplatePostInput!, $file: Upload!) {
-    createTemplatePost(input: $input, file: $file) {
-      templatePost {
-        id
-        title
-        description
-        createdDate
-        documentKey
-        author {
+
+export const GET_TEMPLATE_POST = gql(`
+ query GetTemplatePost($id: String!) {
+  getTemplatePost(id: $id) {
+    id
+    title
+    description
+    createdDate
+    fileKey
+    author {
           id
           userName
         }
-        reviews {
-          id
-          content
-          rating
-          author {
-            id
-            userName
-          }
-        }
-        categories{
-          id
-          name
-        }
-      }
-      documentModel {
-        documentKey
-        documentName
-        documentType
-        uploadDate
+    reviews {
+      id
+      content
+      rating
+      author {
+        id
+        userName
       }
     }
-  }`
+    categories{
+      id
+      name
+    }
+  }
+}`
+);
+
+export const CREATE_TEMPLATE_POST = gql(`
+mutation CreateTemplatePost($input: TemplatePostInput!, $file: Upload) {
+  createTemplatePost(input: $input, file: $file)
+}`
 );
