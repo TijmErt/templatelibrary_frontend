@@ -2,7 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
 import { GET_FILTERED_TEMPLATE_POST } from '../../graphql/templatePostGraphQL'
-import router from '@/router'
+import router from '../../router/index'
 
 interface TemplatePost{
   id: string,
@@ -28,6 +28,7 @@ interface PageInfo {
   sortOrder: string
   hasNextPage: boolean
   hasPreviousPage: boolean
+  __typename?: string;
 }
 
 // Define a reactive variable to store the result of the query

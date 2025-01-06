@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useMutation } from '@vue/apollo-composable'
 import { CREATE_TEMPLATE_POST } from '../../graphql/templatePostGraphQL'
-import router from '@/router'
+import router from '../../router/index'
 
 interface TemplatePostInput {
   title: string
