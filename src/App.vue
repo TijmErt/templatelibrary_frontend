@@ -16,7 +16,7 @@ import { RouterLink, RouterView } from 'vue-router'
   <RouterView />
 
   <footer>
-    created by 486333 (Tijm van Dongen)
+    created by 486333
   </footer>
 </template>
 
