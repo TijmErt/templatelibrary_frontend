@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.11.8",
+    "@stomp/stompjs": "^7.0.0",
     "@tato30/vue-pdf": "^1.11.2",
     "@vue/apollo-components": "^4.0.0",
     "@vue/apollo-composable": "^4.2.1",

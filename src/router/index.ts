@@ -27,6 +27,11 @@ const router = createRouter({
       path:'/Websocket',
       name:'Websocket test',
       component: () => import("../views/WebSocketTest.vue")
+    },
+    {
+      path:'/Websocket/enh',
+      name:'Websocket test Enhanced',
+      component: () => import("../views/EnhancedWebSocketTest.vue")
     }
   ],
 })

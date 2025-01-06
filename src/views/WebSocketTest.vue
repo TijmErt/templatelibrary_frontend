@@ -1,16 +1,18 @@
 <script lang="ts" setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import { Client } from '@stomp/stompjs'
 
 // Reactive variables
 const messages = ref<string[]>([]);
 const inputMessage = ref<string>('');
 let socket: WebSocket | null = null;
-
+let stompClient: Client;
 // WebSocket initialization
 onMounted(() => {
-  socket = new WebSocket('ws://localhost:8082/ws');
+  const socket = new WebSocket('ws://localhost:8082/ws');
 
   socket.onopen = () => {
+
     console.log('WebSocket connection established.');
   };
 
@@ -25,7 +27,22 @@ onMounted(() => {
   socket.onclose = () => {
     console.log('WebSocket connection closed.');
   };
+  stompClient = new Client({
+    brokerURL: 'ws://localhost:8080/ws',
+    connectHeaders: {
+      Authorization: `Basic `+ btoa("user:password")  // Add the JWT token to the headers
+    },
+    onConnect: () => {
+      console.log('Connected to WebSocket');
+
+    },
+    onStompError: () =>{
+
+    }
+  });
+  stompClient.activate();
 });
+
 
 // Clean up WebSocket on component unmount
 onUnmounted(() => {
@@ -33,14 +50,14 @@ onUnmounted(() => {
     socket.close();
     socket = null;
   }
+  stompClient.deactivate();
 });
 
 // Send message to the server
 const sendMessage = () => {
-  if (socket && socket.readyState === WebSocket.OPEN && inputMessage.value.trim()) {
-    socket.send(inputMessage.value);
-    inputMessage.value = '';
-  }
+  console.log("we are triggerd")
+  stompClient.publish({ destination: '/app/updatePost', body: inputMessage.value });
+  inputMessage.value = '';
 };
 </script>
 <template>
