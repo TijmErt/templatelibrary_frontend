@@ -33,7 +33,7 @@ jobs:
 
       # Step 5: Run tests
       - name: Run tests
-        run: npm test
+        run: npm test:unit
 
       # Step 6: Build the application
       - name: Build application
