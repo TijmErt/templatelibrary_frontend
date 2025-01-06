@@ -23,7 +23,7 @@ FROM nginx:stable-alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 # Copy a custom Nginx configuration file (optional)
-
+COPY nginx.conf /etc/nginx/nginx.conf
 
 # Expose the port Nginx will run on
 EXPOSE 80
