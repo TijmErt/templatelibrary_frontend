@@ -4,11 +4,9 @@ import NotificationPopUp from '../components/NotificationPopUp.vue'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { Client } from '@stomp/stompjs';
 
-// Example bookmarked posts
-const bookmarkedPosts = ref([
-  'tempPost-id-1',
-  'tempPost-id-2',
-]);
+
+const bookmarkedPosts = ref<{ id: string; oldTitle: string }[]>([]);
+
 
 interface Message {
   id: string;
@@ -29,13 +27,19 @@ onMounted(() => {
 
       // Subscribe to topics for each bookmarked post
       bookmarkedPosts.value.forEach((post) => {
-        stompClient.subscribe(`/topic/post-updates/${post}`, (message) => {
+        stompClient.subscribe(`/topic/post-updates/${post.id}`, (message) => {
           const updatedInfo = JSON.parse(message.body);
-          updatedMessages.value.push( {
-            id: updatedInfo.id,
-            title: updatedInfo.title,
-            message: updatedInfo.message,
-          });
+          const postToUpdate = bookmarkedPosts.value.find((p) => p.id === post.id);
+
+          if (postToUpdate) {
+            updatedMessages.value.push({
+              id: postToUpdate.id,
+              title: postToUpdate.oldTitle, // Use the correct property
+              message: updatedInfo.message,
+            });
+          } else {
+            console.error(`Post with ID ${post.id} not found in bookmarkedPosts.`);
+          }
         });
       });
     },
@@ -63,15 +67,18 @@ const removeClickedMessage =(id:string)=>{
 </script>
 
 <template>
-  <div class="notification-group" v-if="updatedMessages.length >0">
+  <div class="notification-group" v-if="updatedMessages.length > 0">
     <div v-for="(message, index) in updatedMessages" :key="index">
-      <NotificationPopUp :message="message" @clickedBox="removeClickedMessage" />
+      <NotificationPopUp
+        :message="message"
+        @clickedBox="removeClickedMessage"
+      />
     </div>
   </div>
 </template>
 
 <style scoped>
-.notification-group{
+.notification-group {
   border-style: outset;
   padding: 0.5rem;
 }

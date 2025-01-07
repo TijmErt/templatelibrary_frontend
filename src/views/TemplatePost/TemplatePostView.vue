@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
 import { GET_TEMPLATE_POST } from '../../graphql/templatePostGraphQL';
-import { useRoute } from 'vue-router';
+import { useRoute,onBeforeRouteUpdate } from 'vue-router';
 import apiClient from '../../axios';
 import { VuePDF, usePDF} from '@tato30/vue-pdf'
 import '@tato30/vue-pdf/style.css'
@@ -26,8 +26,6 @@ const currentPostID = route.params.id;
 const getTemplatePost = ref<TemplatePost | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
-
-import { onBeforeRouteUpdate } from 'vue-router'
 // ...
 
 onBeforeRouteUpdate(async (to) => {

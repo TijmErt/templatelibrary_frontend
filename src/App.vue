@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import NotificationGroupBox from '@/components/NotificationGroupBox.vue'
+import ToggleUsers from '@/components/ToggleUsers.vue'
 </script>
 
 <template>
@@ -13,6 +14,7 @@ import NotificationGroupBox from '@/components/NotificationGroupBox.vue'
       </nav>
     </div>
     <NotificationGroupBox/>
+    <ToggleUsers/>
   </header>
 
   <RouterView />
