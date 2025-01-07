@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import NotificationGroupBox from '@/components/NotificationGroupBox.vue'
 </script>
 
 <template>
@@ -11,6 +12,7 @@ import { RouterLink, RouterView } from 'vue-router'
         <RouterLink to="/Post/Creation">Post Creation</RouterLink>
       </nav>
     </div>
+    <NotificationGroupBox/>
   </header>
 
   <RouterView />

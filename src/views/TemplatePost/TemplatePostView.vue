@@ -22,12 +22,21 @@ interface TemplatePost{
     }[]
 }
 const route = useRoute()
+const currentPostID = route.params.id;
 const getTemplatePost = ref<TemplatePost | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
 
-const { result, loading: queryLoading, error: queryError,  } = useQuery(GET_TEMPLATE_POST, {
-  id:  route.params.id ,
+import { onBeforeRouteUpdate } from 'vue-router'
+// ...
+
+onBeforeRouteUpdate(async (to) => {
+  // react to route changes...
+  refetch({id: to.params.id})
+})
+
+const { result, loading: queryLoading, error: queryError, refetch } = useQuery(GET_TEMPLATE_POST, {
+  id:  currentPostID ,
 },{fetchPolicy:'cache-and-network'})
 const givenPDF = ref({})
 const { pdf, pages } = usePDF(givenPDF)

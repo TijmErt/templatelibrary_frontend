@@ -22,16 +22,6 @@ const router = createRouter({
       path:'/Post/Creation',
       name:'TemplatePost Creator',
       component: () => import("../views/TemplatePost/TemplatePostCreate.vue")
-    },
-    {
-      path:'/Websocket',
-      name:'Websocket test',
-      component: () => import("../views/WebSocketTest.vue")
-    },
-    {
-      path:'/Websocket/enh',
-      name:'Websocket test Enhanced',
-      component: () => import("../views/EnhancedWebSocketTest.vue")
     }
   ],
 })
