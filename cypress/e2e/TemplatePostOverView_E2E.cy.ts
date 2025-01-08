@@ -1,4 +1,17 @@
+/*
+UserStory:
+UserStory 04
+
+Test case:
+allow a user to use a search request to find a Post
+allow a user to filter out post using selected categories for filtering
+allow a user to search for a post through pagination
+
+*/
+
 describe('Template Library Searcher', () => {
+  cy.log(" ")
+  cy.log("This UserStory is about allowing a user to have a search page where the can search through a page by using pagination, Search request or Filtering based on categories")
   beforeEach(() => {
     // Visit the page where the component is rendered
     cy.visit('/')

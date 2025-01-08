@@ -1,3 +1,15 @@
+/*
+UserStory:
+UserStory 03
+
+Test case:
+allow a user to view a post
+a user should be able to see the details of the page: Title, Description, average Rating and Categories
+a user should be able to see the related document on the page (PDF previewer)
+a user should be able to see all the reviews/comments the post
+
+*/
+
 describe('Template Post Page', () => {
   beforeEach(() => {
     // Visit the page where the component is rendered. Replace with the actual URL.
