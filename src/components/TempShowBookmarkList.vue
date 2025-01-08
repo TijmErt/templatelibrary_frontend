@@ -30,31 +30,35 @@ const fillList=()=>{
   <button @click="toggleUserList">
     {{ isListVisible ? 'Hide bookmarked' : 'Show bookmarked' }}
   </button>
-  <div class="toggleUserContainer" v-if="isListVisible">
-    <h1>Users List</h1>
+  <div class="toggleContainer" v-if="isListVisible">
+    <h1>BookMarkedPost List</h1>
     <ul v-if="!listIsEmpty">
       <li v-for="post in bookmarkedPosts" :key="post.id " class="listItem">
-        {{post.id}}
-        {{ post.title }}
+        ID:{{post.id}}
+        <br/>
+        title:{{ post.title }}
       </li>
     </ul>
-    <div v-else class="toggleUserContainer">
-      <p>the user has no bookmarked Items</p>
+    <div v-else class="listItem">
+      <p style="padding: 6px">the user has no bookmarked Items</p>
     </div>
   </div>
 </template>
 
 <style scoped>
-.toggleUserContainer{
-  width: 300px;
+.toggleContainer{
+  width: 350px;
   border-style: dashed;
   background: #282828;
+  padding: 20px;
 }
 /* Styles for selected user */
 .listItem{
   width:fit-content;
+  border-style: double;
   border-radius: 6px;
   padding: 6px;
+  margin: 5px;
 }
 button {
   margin-bottom: 10px;

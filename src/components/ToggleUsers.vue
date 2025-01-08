@@ -70,11 +70,11 @@ const toggleUserList = () => {
       <li
         v-for="user in Users"
         :key="user.id"
-        :class="{ selected: selectedUserId === user.id }+' listItem '"
+        :class="{ selected: selectedUserId === user.id, listItem:true }"
         @click="selectUser(user.id)"
         :style="{ cursor: 'pointer', padding: '5px', backgroundColor: selectedUserId === user.id ? '#45a049' : '' }"
       >
-        {{ user.userName }} <p v-if="selectedUserId === user.id"> Registered</p>
+        {{ user.userName }} {{selectedUserId === user.id ? "Registered" : ''}}
       </li>
     </ul>
   </div>
@@ -85,6 +85,7 @@ const toggleUserList = () => {
   width: 300px;
   border-style: dashed;
   background: #282828;
+  padding: 10px;
 }
 
 /* Styles for selected user */
@@ -95,6 +96,9 @@ const toggleUserList = () => {
 .listItem{
   width:fit-content;
   border-radius: 6px;
+  border-style: double;
+  margin: 5px;
+
 }
 button {
   margin-bottom: 10px;
