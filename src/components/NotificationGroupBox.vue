@@ -1,68 +1,102 @@
 <script setup lang="ts">
-
 import NotificationPopUp from '../components/NotificationPopUp.vue'
-import { onMounted, onUnmounted, ref } from 'vue'
-import { Client } from '@stomp/stompjs';
+import { onMounted, onUnmounted, ref, watch } from 'vue'
+import { Client, type StompSubscription } from '@stomp/stompjs'
+import {
+  getAllBookMarkedPosts,
+  store,
+  type BookMarkedPost,
+} from '../state/stateManagement'
 
-
-const bookmarkedPosts = ref<{ id: string; oldTitle: string }[]>([]);
-
+const bookmarkedPosts = ref<BookMarkedPost[]>([])
 
 interface Message {
-  id: string;
-  title: string;
-  message: string;
+  id: string
+  title: string
+  message: string
 }
-const updatedMessages = ref<Message[]>([]);
-let stompClient: Client;
+const updatedMessages = ref<Message[]>([])
+let stompClient: Client
+const subscriptions = ref<StompSubscription[]>([])
 
-onMounted(() => {
+const WebSocketConnect = () => {
+  if (store.currentUser.myBookMarkLists) {
+    bookmarkedPosts.value = getAllBookMarkedPosts()
+  }
+
   stompClient = new Client({
     brokerURL: 'ws://localhost:8080/ws',
     connectHeaders: {
-      Authorization: `Basic `+ btoa("user:password")  // Add the JWT token to the headers
+      Authorization: `Basic ` + btoa('user:password'), // Add the JWT token to the headers
     },
-    onConnect: () => {
-      console.log('Connected to WebSocket');
+  })
+  Subscribe()
+  stompClient.activate()
+}
 
-      // Subscribe to topics for each bookmarked post
-      bookmarkedPosts.value.forEach((post) => {
-        stompClient.subscribe(`/topic/post-updates/${post.id}`, (message) => {
-          const updatedInfo = JSON.parse(message.body);
-          const postToUpdate = bookmarkedPosts.value.find((p) => p.id === post.id);
+const WebSocketDisconnect = () => {
+  if (stompClient) {
+    subscriptions.value.forEach(sub => sub.unsubscribe())
+    subscriptions.value = [] // Clear subscriptions
+    stompClient.deactivate()
+  }
+}
+const Subscribe = () => {
+  stompClient.onConnect = () => {
+
+    // Subscribe to topics for each bookmarked post
+    bookmarkedPosts.value.forEach(post => {
+      const subscription = stompClient.subscribe(
+        `/topic/post-updates/${post.id}`,
+        message => {
+          const updatedInfo = JSON.parse(message.body)
+          const postToUpdate = bookmarkedPosts.value.find(p => p.id === post.id)
 
           if (postToUpdate) {
             updatedMessages.value.push({
               id: postToUpdate.id,
-              title: postToUpdate.oldTitle, // Use the correct property
+              title: postToUpdate.title, // Use the correct property
               message: updatedInfo.message,
-            });
+            })
           } else {
-            console.error(`Post with ID ${post.id} not found in bookmarkedPosts.`);
+            console.error(
+              `Post with ID ${post.id} not found in bookmarkedPosts.`,
+            )
           }
-        });
-      });
-    },
-  });
+        },
+      )
+      if (subscription) {
+        subscriptions.value.push(subscription) // Save the subscription for cleanup later
+      }
+    })
+  }
+}
 
-  stompClient.activate();
-});
-
+onMounted(() => {
+  if (store.currentUser.id !== '') {
+    WebSocketConnect()
+  }
+})
 onUnmounted(() => {
-  if (stompClient) stompClient.deactivate();
-});
+  WebSocketDisconnect()
+})
 
+watch(store.currentUser, () => {
+  WebSocketDisconnect()
+  if (store.currentUser.id !== '') {
+    WebSocketConnect()
+  }
+})
 
-const removeClickedMessage =(id:string)=>{
+const removeClickedMessage = (id: string) => {
   // Find the index of the message with the given ID
-  const index = updatedMessages.value.findIndex((message) => message.id === id);
+  const index = updatedMessages.value.findIndex(message => message.id === id)
 
   if (index !== -1) {
     // Remove the item at the found index
-    updatedMessages.value.splice(index, 1);
+    updatedMessages.value.splice(index, 1)
   }
 
-  console.log(`Removed message with ID: ${id}`);
 }
 </script>
 

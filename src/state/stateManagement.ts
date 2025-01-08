@@ -2,7 +2,7 @@ import { reactive, watch } from 'vue';
 
 const LOCAL_STORAGE_KEY = 'app_store';
 
-interface BookMarkedPost {
+export interface BookMarkedPost {
   id: string;
   title: string;
 }
@@ -13,7 +13,7 @@ interface BookMarkList {
   bookMarkedPosts: BookMarkedPost[];
 }
 
-interface User {
+export interface User {
   id: string;
   userName: string;
   email: string;
@@ -69,4 +69,11 @@ export function updateUser(userData: User) {
 // Function to get all bookmarked posts from all bookMarkLists
 export function getAllBookMarkedPosts() {
   return store.currentUser.myBookMarkLists.flatMap((list) => list.bookMarkedPosts);
+}
+
+export function emptyUser(){
+  store.currentUser.id = '';
+  store.currentUser.userName = '';
+  store.currentUser.email = '';
+  store.currentUser.myBookMarkLists =[];
 }

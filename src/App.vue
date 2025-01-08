@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import NotificationGroupBox from '@/components/NotificationGroupBox.vue'
-import ToggleUsers from '@/components/ToggleUsers.vue'
+import NotificationGroupBox from '../src/components/NotificationGroupBox.vue'
+import ToggleUsers from '../src/components/ToggleUsers.vue'
+import TempShowBookmarkList from '../src/components/TempShowBookmarkList.vue'
 </script>
 
 <template>
@@ -13,10 +14,15 @@ import ToggleUsers from '@/components/ToggleUsers.vue'
         <RouterLink to="/Post/Creation">Post Creation</RouterLink>
       </nav>
     </div>
-    <NotificationGroupBox/>
-    <ToggleUsers/>
-  </header>
 
+  </header>
+  <NotificationGroupBox/>
+  <div style="display: flex;
+  justify-content: space-between; /* Optional: to add space between the components */
+  align-items: center;">
+    <ToggleUsers/>
+    <TempShowBookmarkList/>
+  </div>
   <RouterView />
 
   <footer>
