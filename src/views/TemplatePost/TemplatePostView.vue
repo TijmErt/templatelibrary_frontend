@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
 import { GET_TEMPLATE_POST } from '../../graphql/templatePostGraphQL';
-import { useRoute } from 'vue-router';
+import { useRoute,onBeforeRouteUpdate } from 'vue-router';
 import apiClient from '../../axios';
 import { VuePDF, usePDF} from '@tato30/vue-pdf'
 import '@tato30/vue-pdf/style.css'
@@ -22,12 +22,19 @@ interface TemplatePost{
     }[]
 }
 const route = useRoute()
+const currentPostID = route.params.id;
 const getTemplatePost = ref<TemplatePost | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
+// ...
 
-const { result, loading: queryLoading, error: queryError,  } = useQuery(GET_TEMPLATE_POST, {
-  id:  route.params.id ,
+onBeforeRouteUpdate(async (to) => {
+  // react to route changes...
+  refetch({id: to.params.id})
+})
+
+const { result, loading: queryLoading, error: queryError, refetch } = useQuery(GET_TEMPLATE_POST, {
+  id:  currentPostID ,
 },{fetchPolicy:'cache-and-network'})
 const givenPDF = ref({})
 const { pdf, pages } = usePDF(givenPDF)

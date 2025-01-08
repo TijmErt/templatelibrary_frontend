@@ -98,7 +98,7 @@ const previousPage = () => {
   }
 }
 const goToPost = (postId: string) =>{
-  router.push({ name: 'TemplatePost View', params: { id: postId } });
+  router.push({ name: 'TemplatePost View', params: { id: postId } ,force:true});
 }
 </script>
 <template>
