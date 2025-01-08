@@ -10,8 +10,6 @@ allow a user to search for a post through pagination
 */
 
 describe('Template Library Searcher', () => {
-  cy.log(" ")
-  cy.log("This UserStory is about allowing a user to have a search page where the can search through a page by using pagination, Search request or Filtering based on categories")
   beforeEach(() => {
     // Visit the page where the component is rendered
     cy.visit('/')
