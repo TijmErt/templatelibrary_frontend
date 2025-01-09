@@ -3,7 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import NotificationGroupBox from '../src/components/NotificationGroupBox.vue'
 import ToggleUsers from '../src/components/ToggleUsers.vue'
 import TempShowBookmarkList from '../src/components/TempShowBookmarkList.vue'
-import TempShowMyPostsList from '@/components/TempShowMyPostsList.vue'
+import TempShowMyPostsList from '../src/components/TempShowMyPostsList.vue'
 </script>
 
 <template>

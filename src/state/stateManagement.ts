@@ -1,5 +1,4 @@
 import { reactive, watch } from 'vue';
-import * as stream from 'node:stream'
 
 const LOCAL_STORAGE_KEY = 'app_store';
 

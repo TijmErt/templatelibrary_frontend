@@ -5,10 +5,10 @@ import { Client, type StompSubscription } from '@stomp/stompjs'
 import {
   getAllBookMarkedPosts,
   store,
-  type BookMarkedPost,
+  type TemplatePost,
 } from '../state/stateManagement'
 
-const bookmarkedPosts = ref<BookMarkedPost[]>([])
+const bookmarkedPosts = ref<TemplatePost[]>([])
 
 interface Message {
   id: string
