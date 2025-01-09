@@ -3,6 +3,7 @@ import { RouterLink, RouterView } from 'vue-router'
 import NotificationGroupBox from '../src/components/NotificationGroupBox.vue'
 import ToggleUsers from '../src/components/ToggleUsers.vue'
 import TempShowBookmarkList from '../src/components/TempShowBookmarkList.vue'
+import TempShowMyPostsList from '@/components/TempShowMyPostsList.vue'
 </script>
 
 <template>
@@ -22,6 +23,7 @@ import TempShowBookmarkList from '../src/components/TempShowBookmarkList.vue'
   align-items: center;">
     <ToggleUsers/>
     <TempShowBookmarkList/>
+    <TempShowMyPostsList/>
   </div>
   <RouterView />
 

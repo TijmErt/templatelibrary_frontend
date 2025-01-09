@@ -22,6 +22,11 @@ const router = createRouter({
       path:'/Post/Creation',
       name:'TemplatePost Creator',
       component: () => import("../views/TemplatePost/TemplatePostCreate.vue")
+    },
+    {
+      path:"/Post/Update/:id",
+      name:"TemplatePost Update",
+      component: () => import("../views/TemplatePost/TemplatePostUpdate.vue")
     }
   ],
 })

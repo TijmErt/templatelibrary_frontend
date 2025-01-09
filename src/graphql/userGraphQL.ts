@@ -24,6 +24,10 @@ query getUser($id: String!) {
         title
       }
     }
+    myPosts{
+      id
+      title
+    }
   }
 }
 `)

@@ -1,8 +1,9 @@
 import { reactive, watch } from 'vue';
+import * as stream from 'node:stream'
 
 const LOCAL_STORAGE_KEY = 'app_store';
 
-export interface BookMarkedPost {
+export interface TemplatePost {
   id: string;
   title: string;
 }
@@ -10,7 +11,7 @@ export interface BookMarkedPost {
 interface BookMarkList {
   id: string;
   title: string;
-  bookMarkedPosts: BookMarkedPost[];
+  bookMarkedPosts: TemplatePost[];
 }
 
 export interface User {
@@ -18,6 +19,7 @@ export interface User {
   userName: string;
   email: string;
   myBookMarkLists: BookMarkList[];
+  myPosts: TemplatePost[]
 }
 
 // Function to load data from local storage
@@ -36,6 +38,7 @@ function loadFromLocalStorage(): { currentUser: User } {
       userName: '',
       email: '',
       myBookMarkLists: [],
+      myPosts:[]
     },
   };
 }
@@ -65,10 +68,17 @@ export function updateUser(userData: User) {
       title: post.title,
     })),
   }));
+  store.currentUser.myPosts = userData.myPosts.map((post) =>({
+    id:post.id,
+    title:post.title,
+  }));
 }
 // Function to get all bookmarked posts from all bookMarkLists
 export function getAllBookMarkedPosts() {
   return store.currentUser.myBookMarkLists.flatMap((list) => list.bookMarkedPosts);
+}
+export function getAllMyPosts(){
+  return store.currentUser.myPosts;
 }
 
 export function emptyUser(){
@@ -76,4 +86,5 @@ export function emptyUser(){
   store.currentUser.userName = '';
   store.currentUser.email = '';
   store.currentUser.myBookMarkLists =[];
+  store.currentUser.myPosts =[];
 }

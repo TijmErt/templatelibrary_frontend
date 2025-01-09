@@ -66,3 +66,30 @@ mutation CreateTemplatePost($input: TemplatePostInput!, $file: Upload) {
   createTemplatePost(input: $input, file: $file)
 }`
 );
+
+export const UPDATE_TEMPLATE_POST = gql(`
+  mutation UpdateTemplatePost($postID: ID!, $input: UpdateTemplatePostInput!) {
+    updateTemplatePost(postID: $postID, input: $input) {
+      id
+      title
+      description
+      createdDate
+      fileKey
+      avgRating
+      author {
+        id
+        userName
+      }
+      categories {
+        id
+        name
+      }
+      reviews {
+        id
+        content
+        rating
+      }
+    }
+  }
+`);
+

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 
-import { getAllBookMarkedPosts, type TemplatePost, store } from '../state/stateManagement'
+import { type TemplatePost, store, getAllMyPosts } from '../state/stateManagement'
 import { onMounted, ref, watch } from 'vue'
 import router from '../router/index'
 
-const bookmarkedPosts = ref<TemplatePost[]>([]);
+const myPosts = ref<TemplatePost[]>([]);
 const listIsEmpty = ref(true);
 const isListVisible = ref(false);
 onMounted(()=>{
@@ -20,28 +20,33 @@ const toggleUserList = () => {
   isListVisible.value = !isListVisible.value
 }
 const fillList=()=>{
-    listIsEmpty.value = !(store.currentUser.myBookMarkLists.length > 0);
-    bookmarkedPosts.value = getAllBookMarkedPosts()
+  listIsEmpty.value = !(store.currentUser.myPosts.length > 0);
+  myPosts.value = getAllMyPosts()
 
 }
 const goToPost = (selectedID: string) =>{
   router.push({name:"TemplatePost View",params:{id:selectedID} ,force:true})
 }
-
+const goToEditPost = (selectedID: string) =>{
+  router.push({name:"TemplatePost Update",params:{id:selectedID} ,force:true})
+}
 </script>
 
 <template>
   <button @click="toggleUserList">
-    {{ isListVisible ? 'Hide bookmarked' : 'Show bookmarked' }}
+    {{ isListVisible ? 'Hide my posts' : 'Show my posts' }}
   </button>
   <div class="toggleContainer" v-if="isListVisible">
-    <h1>BookMarkedPost List</h1>
+    <h1>My Posts List</h1>
     <ul v-if="!listIsEmpty">
-      <li v-for="post in bookmarkedPosts" :key="post.id " class="listItem">
-        <div @click="goToPost(post.id)">
+      <li v-for="post in myPosts" :key="post.id " class="listItem">
+        <div @click.self="goToPost(post.id)">
           ID:{{post.id}}
           <br/>
           title:{{ post.title }}
+        </div>
+        <div class="gotToEdit" @click.stop="goToEditPost(post.id)">
+          Edit
         </div>
       </li>
     </ul>
@@ -72,5 +77,10 @@ button {
   padding: 8px 16px;
   font-size: 16px;
   cursor: pointer;
+}
+.gotToEdit{
+  cursor: crosshair;
+  background: #282828;
+  color: white;
 }
 </style>
