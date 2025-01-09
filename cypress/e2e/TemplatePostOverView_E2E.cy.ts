@@ -22,10 +22,9 @@ describe('Template Library Searcher', () => {
 
   it('displays posts correctly when data is fetched', () => {
     // Assuming the data for the first page is fetched and displayed after loading
-    cy.wait(500) // Wait for data to load, adjust the wait time as necessary
 
     // Check that posts are displayed
-    cy.get('.postContainer').should('have.length', 4)
+    cy.get('.postContainer',{timeout:500}).should('have.length', 4)
 
     // Check the title and rating of the first post
     cy.get('.postContainer').first().within(() => {
@@ -51,20 +50,15 @@ describe('Template Library Searcher', () => {
   })
 
   it('verifies pagination works (next page)', () => {
-    // Wait for the data to load
-    cy.wait(500)
 
     // Check initial page info (Page 1 of 2)
-    cy.get('.pagination').contains('Page 1 of 2')
+    cy.get('.pagination',{timeout:500}).contains('Page 1 of 2')
 
     // Click on the next page button
     cy.get('button').contains('Next').click()
 
-    // Wait for the page to reload with new data
-    cy.wait(500)
-
     // Check if the page info updated to the next page (Page 2 of 2)
-    cy.get('.pagination').contains('Page 2 of 2')
+    cy.get('.pagination',{timeout:500}).contains('Page 2 of 2')
 
     // Optionally, check if the content is different (e.g., different posts for the second page)
     cy.get('.postContainer').first().within(() => {
@@ -75,13 +69,11 @@ describe('Template Library Searcher', () => {
   it('verifies pagination works (previous page)', () => {
     // First, go to the second page to test the previous functionality
     cy.get('button').contains('Next').click()
-    cy.wait(500)
 
     // Now click on the previous button
-    cy.get('button').contains('Previous').click()
-    cy.wait(500)
+    cy.get('button',{timeout:500}).contains('Previous').click()
 
     // Check if the page info updated back to the first page (Page 1 of 2)
-    cy.get('.pagination').contains('Page 1 of 2')
+    cy.get('.pagination',{timeout:500}).contains('Page 1 of 2')
   })
 })
