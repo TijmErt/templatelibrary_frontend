@@ -7,7 +7,7 @@ import TempShowMyPostsList from '../src/components/TempShowMyPostsList.vue'
 </script>
 
 <template>
-  <header>
+  <header class="header textShadow">
     <h1>TemplateLibrary</h1>
     <div class="wrapper">
       <nav>
@@ -18,16 +18,17 @@ import TempShowMyPostsList from '../src/components/TempShowMyPostsList.vue'
 
   </header>
   <NotificationGroupBox/>
-  <div style="display: flex;
-  justify-content: space-between; /* Optional: to add space between the components */
-  align-items: center;">
-    <ToggleUsers/>
-    <TempShowBookmarkList/>
-    <TempShowMyPostsList/>
-  </div>
+
   <RouterView />
 
   <footer>
+    <div style="display: flex;
+  justify-content: space-between; /* Optional: to add space between the components */
+  align-items: center;">
+      <ToggleUsers/>
+      <TempShowBookmarkList/>
+      <TempShowMyPostsList/>
+    </div>
     created by 486333
   </footer>
 </template>
@@ -35,13 +36,18 @@ import TempShowMyPostsList from '../src/components/TempShowMyPostsList.vue'
 <style scoped>
 h1{
   font-size: 25px;
+
 }
 header {
   line-height: 1.5;
   max-height: 100vh;
   margin-bottom: 2em;
+  background-color: var(--color-background-box);
+  border-radius: 0 0 5px 5px;
 }
-
+footer{
+  margin-top: 4em;
+}
 .logo {
   display: block;
   margin: 0 auto 2rem;
@@ -67,7 +73,6 @@ nav a.router-link-exact-active:hover {
 nav a {
   display: inline-block;
   padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
 }
 
 nav a:first-of-type {
@@ -78,7 +83,8 @@ nav a:first-of-type {
   header {
     display: block;
     place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+    padding: 0 1rem;
+    box-shadow: 0px 10px 5px rgba(0, 0, 0, 0.1);
   }
 
   .logo {

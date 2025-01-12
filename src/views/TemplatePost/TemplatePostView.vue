@@ -20,6 +20,7 @@ interface TemplatePost{
       id: string,
       name: string,
     }[]
+    avgRating:number,
 }
 const route = useRoute()
 const currentPostID = route.params.id;
@@ -81,15 +82,25 @@ watch(result, value => {
       </div>
 
       <div v-else-if="getTemplatePost">
-        <h2>{{ getTemplatePost.title }}</h2>
-        <p>{{ getTemplatePost.description }}</p>
-        <p>Author: {{ getTemplatePost.author.userName }}</p>
-        <p>Created on: {{ getTemplatePost.createdDate }}</p>
-        <br>
-        <div v-for="category in getTemplatePost.categories" v-bind:key="category.id">
-          {{category.id}}
-          {{category.name}}
+        <div class="contentHeader textShadow">
+          <h2>{{ getTemplatePost.title }}</h2>
+          <p>rating: {{getTemplatePost.avgRating}}</p>
         </div>
+
+        <div class="contentBody">
+          <div class="categoryBody">
+            <div v-for="category in getTemplatePost.categories" v-bind:key="category.id" class="categoryPart">
+              {{category.name}}
+            </div>
+          </div>
+          <p>{{ getTemplatePost.description }}</p>
+          <p>Author: {{ getTemplatePost.author.userName }}</p>
+          <p>Created on: {{ getTemplatePost.createdDate }}</p>
+
+
+        </div>
+
+
       </div>
     </div>
     <div class="pdfContainer OrderLeft" >
@@ -103,6 +114,7 @@ watch(result, value => {
 </template>
 
 <style scoped>
+
 .pageContainer{
   width: 100%;
   flex-direction: column;
@@ -115,6 +127,36 @@ watch(result, value => {
 .contentContainer {
   max-height: fit-content;
   max-width: 700px;
+  background-color: var(--color-background-soft);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.contentHeader{
+  background-color: var(--color-background-box-secondary);
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+.contentBody{
+  padding: 10px;
+  color: var(--color-text-alt);
+}
+.categoryBody{
+  width: 95%;
+  margin: 0 auto 10px auto;
+  background-color: var(--color-background-box-secondary);
+  padding: 10px;
+  border-radius: 10px;
+  display: flex; /* Makes the children (categoryPart) align in a row */
+  flex-wrap: wrap; /* Allows wrapping to the next line if there's not enough space */
+  gap: 10px;
+}
+.categoryPart{
+  border-radius: 20px;
+  border-width: 1px;
+  padding: 4px;
+  background-color: var(--color-background);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 @media (min-width: 1024px) {
   .pageContainer{

@@ -102,7 +102,10 @@ const goToPost = (postId: string) =>{
 }
 </script>
 <template>
-  <h1>Template Library Searcher</h1>
+  <div class="header-overview textShadow">
+    <h1>Template Library Searcher</h1>
+    <h2>Results: {{pageInfo.total}}</h2>
+  </div>
 
   <div v-if="loading">
     <p>Loading...</p>
@@ -131,14 +134,36 @@ const goToPost = (postId: string) =>{
 </template>
 
 <style scoped>
+.header-overview{
+  background-color: var(--color-background-box-secondary);
+  border-radius: 5px 5px 0 0;
+  padding: 5px 15px
+}
 .postsBox{
   width: 100%;
   display: grid;
   grid-template-columns: auto auto auto;
   grid-gap: 10px;
+  background-color: var(--color-background-soft);
+  padding: 25px;
+  border-radius: 0 0 5px 5px;
+  border-collapse: collapse;
+  border-style: inset;
+  border-color: var(--vt-c-black);
+  box-shadow: 2px 7px 5px rgba(0, 0, 0, 0.3) inset, -2px 0px 5px rgba(0, 0, 0, 0.3) inset ;
 }
 .postContainer{
   padding: 10px;
   border-style: outset;
+  border-width: 2px;
+  background-color: var(--color-background-white);
+  border-color: var(--vt-c-black);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  color: var(--color-text-alt);
+
+}
+
+.pagination{
+  color: var(--color-text-alt);
 }
 </style>

@@ -57,6 +57,7 @@ export const GET_TEMPLATE_POST = gql(`
       id
       name
     }
+    avgRating
   }
 }`
 );

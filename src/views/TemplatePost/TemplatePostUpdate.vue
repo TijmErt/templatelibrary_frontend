@@ -157,9 +157,12 @@ watch(store.currentUser, () => {
 
 <template>
   <div>
-    <h1>Update Template Post</h1>
-    <form @submit.prevent="updatePost">
-      <div>
+
+    <form @submit.prevent="updatePost" class="form-container">
+      <div class="form-header textShadow">
+        <h1>Update Template Post</h1>
+      </div>
+      <div class="form-field">
         <label for="title">Title</label>
         <input
           id="title"
@@ -168,7 +171,7 @@ watch(store.currentUser, () => {
           placeholder="Enter title"
         />
       </div>
-      <div>
+      <div class="form-field">
         <label for="description">Description</label>
         <textarea
           id="description"
@@ -176,9 +179,9 @@ watch(store.currentUser, () => {
           placeholder="Enter description"
         ></textarea>
       </div>
-      <div>
+      <div class="form-field">
         <h2>Categories</h2>
-        <div v-for="category in totalCategories" :key="category.id">
+        <div v-for="category in totalCategories" :key="category.id" class="categoryPart">
           <input
             id="{{category.name}}"
             type="checkbox"
@@ -186,7 +189,7 @@ watch(store.currentUser, () => {
             :checked="inputPost.categories.includes(category.id)"
             @change="toggleCategory(category.id)"
           />
-          <label for="{{category.name}}">{{ category.name }}</label>
+          <label style="margin-left: 10px" for="{{category.name}}">{{ category.name }}</label>
         </div>
       </div>
       <button type="submit">Update Post</button>
@@ -195,6 +198,39 @@ watch(store.currentUser, () => {
 </template>
 
 <style scoped>
+.form-header{
+  background-color: var(--color-background-box-secondary);
+  color: var(--color-text);
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center; /* Centers the text content inside the header */
+}
+/* Container for the entire form */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Adds spacing between fields */
+  max-width: 400px; /* Limits form width */
+  margin: 0 auto; /* Centers the form horizontally */
+  background-color: var(--color-background-soft);
+  color: var(--color-text-alt);
+
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.form-field {
+  display: flex;
+  flex-direction: column;
+  margin: 0 10px;
+}
+
+.categoryPart{
+  border-radius: 20px;
+  border-width: 1px var(--vt-c-black) solid;
+  padding: 4px;
+  background-color: var(--color-background);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
 form div {
   margin-bottom: 1rem;
 }
@@ -208,14 +244,16 @@ input[type=text], textarea {
   margin-bottom: 0.5rem;
 }
 button {
-  padding: 0.5rem 1rem;
-  background-color: #007bff;
+  padding: 10px 15px;
+  font-size: 1em;
+  background-color: #4CAF50;
   color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  margin: 0 auto 20px auto;
 }
 button:hover {
-  background-color: #0056b3;
+  background-color: #45a049;
 }
 </style>
