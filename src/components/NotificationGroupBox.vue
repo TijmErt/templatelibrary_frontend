@@ -114,6 +114,11 @@ const removeClickedMessage = (id: string) => {
 <style scoped>
 .notification-group {
   border-style: outset;
-  padding: 0.5rem;
+  border-radius: 5px;
+  padding: 1.5rem;
+  margin: 0rem 2rem 2rem 2rem;
+  background-color: var(--color-background-soft);
+  box-shadow: var(--shadow-base-inset);
+  color: var(--color-text-alt);
 }
 </style>

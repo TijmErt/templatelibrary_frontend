@@ -40,10 +40,10 @@ const goToEditPost = (selectedID: string) =>{
     <h1>My Posts List</h1>
     <ul v-if="!listIsEmpty">
       <li v-for="post in myPosts" :key="post.id " class="listItem">
-        <div @click.self="goToPost(post.id)">
-          ID:{{post.id}}
+        <div @click.self="goToPost(post.id)" class="goToPage">
+          ID: {{post.id}}
           <br/>
-          title:{{ post.title }}
+          title: {{ post.title }}
         </div>
         <div class="gotToEdit" @click.stop="goToEditPost(post.id)">
           Edit
@@ -72,6 +72,10 @@ const goToEditPost = (selectedID: string) =>{
   margin: 5px;
   cursor: pointer;
 }
+.goToPage:hover{
+  text-decoration-line: underline;
+}
+
 button {
   margin-bottom: 10px;
   padding: 8px 16px;
@@ -82,5 +86,8 @@ button {
   cursor: crosshair;
   background: #282828;
   color: white;
+}
+.gotToEdit:hover{
+  text-decoration-line: underline;
 }
 </style>

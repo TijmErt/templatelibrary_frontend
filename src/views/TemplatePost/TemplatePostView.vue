@@ -85,6 +85,7 @@ watch(result, value => {
         <div class="contentHeader textShadow">
           <h2>{{ getTemplatePost.title }}</h2>
           <p>rating: {{getTemplatePost.avgRating}}</p>
+          <p>Author: {{ getTemplatePost.author.userName }}</p>
         </div>
 
         <div class="contentBody">
@@ -93,20 +94,21 @@ watch(result, value => {
               {{category.name}}
             </div>
           </div>
-          <p>{{ getTemplatePost.description }}</p>
-          <p>Author: {{ getTemplatePost.author.userName }}</p>
-          <p>Created on: {{ getTemplatePost.createdDate }}</p>
 
+          <div class="descriptionBody">
+            <p>{{ getTemplatePost.description }}</p>
+            <br/>
+            <hr/>
+            <i>Created on: {{ getTemplatePost.createdDate }}</i>
+          </div>
 
         </div>
-
-
       </div>
     </div>
-    <div class="pdfContainer OrderLeft" >
-      <div v-if="givenPDF" >
+    <div class="pdfContainer OrderLeft " >
+      <div v-if="givenPDF"  >
         <div v-for="page in pages" :key="page">
-          <VuePDF class="vue-pdf" :pdf="pdf" :page="page" :text-layer="true" :annotation-layer="true" fit-parent/>
+          <VuePDF class="vue-pdf" :pdf="pdf" :page="page" :text-layer="true" :annotation-layer="true" :fit-parent=true intent="display"/>
         </div>
       </div>
     </div>
@@ -119,45 +121,64 @@ watch(result, value => {
   width: 100%;
   flex-direction: column;
 }
-.pdfContainer{
-  overflow-y: auto;
-  max-height: 500px;
 
+.pdfContainer{
+  overflow: hidden;
+  max-height: 500px;
+  border-radius: var(--radius-standard);
+  border-width: 0;
+  box-shadow: var(--shadow-base-inset);
+  padding: 20px;
 }
+
+.pdfContainer:hover{
+  overflow: auto;
+}
+
 .contentContainer {
   max-height: fit-content;
-  max-width: 700px;
+  max-width: fit-content;
   background-color: var(--color-background-soft);
-  border-radius: 10px;
+  border-radius: var(--radius-standard);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
+
 .contentHeader{
   background-color: var(--color-background-box-secondary);
   padding: 10px;
-  border-radius: 10px;
+  border-radius: var(--radius-standard);
   margin-bottom: 10px;
 }
+
 .contentBody{
   padding: 10px;
   color: var(--color-text-alt);
 }
+
 .categoryBody{
   width: 95%;
   margin: 0 auto 10px auto;
   background-color: var(--color-background-box-secondary);
   padding: 10px;
-  border-radius: 10px;
-  display: flex; /* Makes the children (categoryPart) align in a row */
-  flex-wrap: wrap; /* Allows wrapping to the next line if there's not enough space */
-  gap: 10px;
+  border-radius: var(--radius-standard);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
+
 .categoryPart{
   border-radius: 20px;
   border-width: 1px;
-  padding: 4px;
+  padding: 3px 7px;
   background-color: var(--color-background);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
+
+.descriptionBody{
+  margin: 0 auto 10px auto;
+  padding: 10px;
+}
+
 @media (min-width: 1024px) {
   .pageContainer{
     width: 100%;
@@ -167,9 +188,13 @@ watch(result, value => {
 
   }
   .pdfContainer{
-    overflow-y: auto;
     max-height: 600px;
     max-width: 700px;
+    overflow-x: hidden;
+  }
+  .pdfContainer:hover{
+    overflow: auto;
+    overflow-x: hidden;
   }
   .contentContainer {
     max-height: fit-content;

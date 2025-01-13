@@ -39,9 +39,9 @@ const goToPost = (selectedID: string) =>{
     <ul v-if="!listIsEmpty">
       <li v-for="post in bookmarkedPosts" :key="post.id " class="listItem">
         <div @click="goToPost(post.id)">
-          ID:{{post.id}}
+          ID: {{post.id}}
           <br/>
-          title:{{ post.title }}
+          title: {{ post.title }}
         </div>
       </li>
     </ul>
@@ -73,4 +73,8 @@ button {
   font-size: 16px;
   cursor: pointer;
 }
+.listItem:hover{
+  text-decoration-line: underline;
+}
+
 </style>

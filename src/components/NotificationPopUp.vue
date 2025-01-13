@@ -20,7 +20,7 @@ const routeTo =()=>{
 
 <template>
 <div class="messageContainer" @click="routeTo()">
-  <p>{{message.title}} : {{message.message}}</p>
+  <h3>{{message.title}} : {{message.message}}</h3>
 
 </div>
 </template>
@@ -29,5 +29,12 @@ const routeTo =()=>{
 .messageContainer{
   border-style: groove;
   padding: 1rem;
+  background-color: var(--color-background);
+  box-shadow: var(--shadow-base);
+  border-width: 2px;
+}
+.messageContainer:hover{
+  cursor: pointer;
+  text-decoration-line: underline;
 }
 </style>

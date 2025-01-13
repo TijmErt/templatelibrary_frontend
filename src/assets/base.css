@@ -19,6 +19,7 @@
 
   --vt-c-text-main: rgba(209, 172, 0, 1);
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
+
 }
 
 /* semantic color variables for this project */
@@ -38,6 +39,11 @@
   --color-text-alt: var(--vt-c-black);
 
   --section-gap: 160px;
+
+  --shadow-base: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  --shadow-base-inset: 2px 7px 5px rgba(0, 0, 0, 0.3) inset, -2px 0px 5px rgba(0, 0, 0, 0.3) inset ;
+
+  --radius-standard: 10px;
 }
 
 *,

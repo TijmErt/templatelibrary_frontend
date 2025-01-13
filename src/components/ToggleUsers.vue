@@ -72,7 +72,7 @@ const toggleUserList = () => {
         :key="user.id"
         :class="{ selected: selectedUserId === user.id, listItem:true }"
         @click="selectUser(user.id)"
-        :style="{ cursor: 'pointer', padding: '5px', backgroundColor: selectedUserId === user.id ? '#45a049' : '' }"
+        :style="{ backgroundColor: selectedUserId === user.id ? '#45a049' : '' }"
       >
         {{ user.userName }} {{selectedUserId === user.id ? "Registered" : ''}}
       </li>
@@ -98,7 +98,12 @@ const toggleUserList = () => {
   border-radius: 6px;
   border-style: double;
   margin: 5px;
+  cursor: pointer;
+  padding: 5px;
 
+}
+.listItem:hover{
+  text-decoration-line: underline;
 }
 button {
   margin-bottom: 10px;
