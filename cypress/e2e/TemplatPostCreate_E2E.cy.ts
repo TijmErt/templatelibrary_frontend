@@ -40,10 +40,10 @@ describe('TemplatePost Form E2E Test', () => {
     cy.get('p').contains('This is a valid description with more than 11 characters.')
     cy.get('p').contains('Author: Alice')
 
-    cy.get('.pdfContainer',{timeout:8000}).should('be.visible')
+    cy.get('.pdfContainer').should('be.visible')
 
     // Check if the PDF is displayed (this will depend on how the component renders the PDF pages)
-    cy.get('.vue-pdf').should('have.length.greaterThan', 0) // Adjust the selector for VuePDF component
+    cy.get('.vue-pdf',{timeout:8000}).should('have.length.greaterThan', 0) // Adjust the selector for VuePDF component
   });
 
 });

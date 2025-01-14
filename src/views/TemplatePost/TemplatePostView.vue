@@ -68,6 +68,7 @@ watch(result, value => {
     fetchPDF(getTemplatePost.value.fileKey)
   }
 })
+const value= ref<boolean>(true)
 </script>
 <template>
   <div class="pageContainer">
@@ -108,7 +109,7 @@ watch(result, value => {
     <div class="pdfContainer OrderLeft " >
       <div v-if="givenPDF"  >
         <div v-for="page in pages" :key="page">
-          <VuePDF class="vue-pdf" :pdf="pdf" :page="page" :text-layer="true" :annotation-layer="true" :fit-parent=true intent="display"/>
+          <VuePDF class="vue-pdf" :pdf="pdf" :page="page" :text-layer="true" :annotation-layer="true" :fit-parent="value" />
         </div>
       </div>
     </div>

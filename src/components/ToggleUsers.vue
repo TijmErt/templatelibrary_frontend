@@ -52,35 +52,40 @@ const toggleUserList = () => {
 </script>
 
 <template>
-  <button @click="toggleUserList">
-    {{ isUsersListVisible ? 'Hide Users' : 'Show Users' }}
-  </button>
-  <div class="toggleUserContainer" v-if="isUsersListVisible">
-    <h1>Users List</h1>
+  <div class="userContainer">
+    <button @click="toggleUserList">
+      {{ isUsersListVisible ? 'Hide Users' : 'Show Users' }}
+    </button>
+    <div class="toggleUserContainer" v-if="isUsersListVisible">
+      <h1>Users List</h1>
 
-    <!-- Button to toggle visibility -->
+      <!-- Button to toggle visibility -->
 
 
-    <!-- Loading and error handling -->
-    <div v-if="queryLoading">Loading...</div>
-    <div v-if="queryError">Error: {{ queryError.message }}</div>
+      <!-- Loading and error handling -->
+      <div v-if="queryLoading">Loading...</div>
+      <div v-if="queryError">Error: {{ queryError.message }}</div>
 
-    <!-- Collapsible list of users -->
-    <ul v-if="!queryLoading && !queryError">
-      <li
-        v-for="user in Users"
-        :key="user.id"
-        :class="{ selected: selectedUserId === user.id, listItem:true }"
-        @click="selectUser(user.id)"
-        :style="{ backgroundColor: selectedUserId === user.id ? '#45a049' : '' }"
-      >
-        {{ user.userName }} {{selectedUserId === user.id ? "Registered" : ''}}
-      </li>
-    </ul>
+      <!-- Collapsible list of users -->
+      <ul v-if="!queryLoading && !queryError">
+        <li
+          v-for="user in Users"
+          :key="user.id"
+          :class="{ selected: selectedUserId === user.id, listItem:true }"
+          @click="selectUser(user.id)"
+          :style="{ backgroundColor: selectedUserId === user.id ? '#45a049' : '' }"
+        >
+          {{ user.userName }} {{selectedUserId === user.id ? "Registered" : ''}}
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.userContainer {
+  flex-direction: column;
+}
 .toggleUserContainer{
   width: 300px;
   border-style: dashed;

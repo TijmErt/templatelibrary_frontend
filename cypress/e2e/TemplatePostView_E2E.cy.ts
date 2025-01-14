@@ -16,50 +16,69 @@ describe('Template Post Page', () => {
     cy.visit('/Post/tempPost-id-1')  // Replace with the correct dynamic URL
   })
 
+
   it('displays the loading state initially', () => {
-    // Check if the loading message is displayed initially
-    cy.get('p').contains('Loading...')
-  })
+    // Verify the loading message is displayed
+    cy.get('div.contentContainer').within(() => {
+      cy.get('p').contains('Loading...');
+    });
+  });
 
   it('displays the template post details correctly when data is fetched', () => {
+    // Wait for data to load
+    cy.get('div.contentContainer').should('not.contain', 'Loading...');
 
     // Check if the template post details are displayed correctly
-    cy.get('h2').contains('Template Post Title')
-    cy.get('p').contains('Description for template post 1')
-    cy.get('p').contains('Author: Alice')
-    cy.get('p').contains('Created on: 2024-10-29')
-    cy.get('div').contains('Technology')
-    cy.get('div').contains('Health')
-  })
+    cy.get('h2').should('contain', 'Template Post Title');
+    cy.get('p').should('contain', 'rating:');
+    cy.get('p').should('contain', 'Author: Alice');
+    cy.get('p').should('contain', 'Description for template post 1');
+    cy.get('i').should('contain', 'Created on: 2024-10-29');
+
+    // Verify categories
+    cy.get('div.categoryBody').within(() => {
+      cy.get('div').should('contain', 'Technology');
+      cy.get('div').should('contain', 'Health');
+    });
+  });
 
   it('displays the error state when there is an error fetching data', () => {
     // Mock an error response for the GraphQL request
     cy.intercept('POST', '/graphql', {
       statusCode: 500,
-      body: { error: 'Internal Server Error' }
-    }).as('graphqlError')
+      body: { errors: [{ message: 'Internal Server Error' }] },
+    }).as('graphqlError');
 
-    // Trigger a refetch or reload of the component to show the error state
-    cy.reload()
+    // Reload the page to trigger the error state
+    cy.reload();
 
     // Wait for the error response
-    cy.wait('@graphqlError')
+    cy.wait('@graphqlError');
 
-    // Check if the error message is displayed
-    cy.get('p').contains('Error: Response not successful: Received status code 500')
-  })
+    // Verify the error message is displayed
+    cy.get('div.contentContainer').within(() => {
+      cy.get('p').contains('Error: Response not successful: Received status code 500');
+    });
+  });
 
   it('fetches and renders the PDF correctly', () => {
-
     // Ensure that the PDF container is visible
-    cy.get('.pdfContainer').should('be.visible')
+    cy.get('div.pdfContainer').should('be.visible');
 
-    // Check if the PDF is displayed (this will depend on how the component renders the PDF pages)
-    cy.get('.vue-pdf').should('have.length.greaterThan', 0) // Adjust the selector for VuePDF component
-  })
+    // Check if the PDF is rendered
+    cy.get('.vue-pdf').should('exist');
+    cy.get('.vue-pdf').should('have.length.greaterThan', 0);
+  });
 
-  it('displays the PDF loader or blank if no PDF is available', () => {
-    // Test case when no PDF is available, ensure it does not render anything
-    cy.get('.pdfContainer').should('not.have.descendants', '.vue-pdf')
-  })
+  it('displays a blank PDF container if no PDF is available', () => {
+    // Mock a response with no PDF file
+    cy.intercept('GET', '/get/nonexistent-file/pdf', {
+      statusCode: 404,
+      body: {},
+    });
+
+    // Ensure the PDF container exists but has no PDF rendered
+    cy.get('div.pdfContainer').should('be.visible');
+    cy.get('div.pdfContainer').should('not.have.descendants', '.vue-pdf');
+  });
 })

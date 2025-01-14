@@ -16,7 +16,7 @@ watch(store.currentUser, () => {
 })
 
 // Function to toggle visibility
-const toggleUserList = () => {
+const togglBookMarkPostList = () => {
   isListVisible.value = !isListVisible.value
 }
 const fillList=()=>{
@@ -31,27 +31,33 @@ const goToPost = (selectedID: string) =>{
 </script>
 
 <template>
-  <button @click="toggleUserList">
-    {{ isListVisible ? 'Hide bookmarked' : 'Show bookmarked' }}
-  </button>
-  <div class="toggleContainer" v-if="isListVisible">
-    <h1>BookMarkedPost List</h1>
-    <ul v-if="!listIsEmpty">
-      <li v-for="post in bookmarkedPosts" :key="post.id " class="listItem">
-        <div @click="goToPost(post.id)">
-          ID: {{post.id}}
-          <br/>
-          title: {{ post.title }}
-        </div>
-      </li>
-    </ul>
-    <div v-else class="listItem">
-      <p style="padding: 6px">the user has no bookmarked Items</p>
+  <div class="bookMarkPostContainer">
+    <button @click="togglBookMarkPostList">
+      {{ isListVisible ? 'Hide bookmarked' : 'Show bookmarked' }}
+    </button>
+    <div class="toggleContainer" v-if="isListVisible">
+      <h1>BookMarkedPost List</h1>
+      <ul v-if="!listIsEmpty">
+        <li v-for="post in bookmarkedPosts" :key="post.id " class="listItem">
+          <div @click="goToPost(post.id)">
+            ID: {{post.id}}
+            <br/>
+            title: {{ post.title }}
+          </div>
+        </li>
+      </ul>
+      <div v-else class="listItem">
+        <p style="padding: 6px">the user has no bookmarked Items</p>
+      </div>
     </div>
   </div>
+
 </template>
 
 <style scoped>
+.bookMarkPostContainer{
+  flex-direction: column;
+}
 .toggleContainer{
   width: 350px;
   border-style: dashed;

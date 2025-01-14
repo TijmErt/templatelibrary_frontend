@@ -22,13 +22,15 @@ import TempShowMyPostsList from '../src/components/TempShowMyPostsList.vue'
   <RouterView />
 
   <footer>
-    <div style="display: flex;
-  justify-content: space-between; /* Optional: to add space between the components */
-  align-items: center;">
-      <ToggleUsers/>
-      <TempShowBookmarkList/>
-      <TempShowMyPostsList/>
+    <div style="text-align: center;  border-style: groove; padding: 10px;">
+      <h3>Development Tools for User Registry</h3>
+      <div style="display: flex; justify-content: space-evenly; align-content: center;">
+        <ToggleUsers/>
+        <TempShowBookmarkList/>
+        <TempShowMyPostsList/>
+      </div>
     </div>
+
     created by 486333
   </footer>
 </template>

@@ -16,7 +16,7 @@ watch(store.currentUser, () => {
 })
 
 // Function to toggle visibility
-const toggleUserList = () => {
+const toggleMyPostList = () => {
   isListVisible.value = !isListVisible.value
 }
 const fillList=()=>{
@@ -33,30 +33,35 @@ const goToEditPost = (selectedID: string) =>{
 </script>
 
 <template>
-  <button @click="toggleUserList">
-    {{ isListVisible ? 'Hide my posts' : 'Show my posts' }}
-  </button>
-  <div class="toggleContainer" v-if="isListVisible">
-    <h1>My Posts List</h1>
-    <ul v-if="!listIsEmpty">
-      <li v-for="post in myPosts" :key="post.id " class="listItem">
-        <div @click.self="goToPost(post.id)" class="goToPage">
-          ID: {{post.id}}
-          <br/>
-          title: {{ post.title }}
-        </div>
-        <div class="gotToEdit" @click.stop="goToEditPost(post.id)">
-          Edit
-        </div>
-      </li>
-    </ul>
-    <div v-else class="listItem">
-      <p style="padding: 6px">the user has no bookmarked Items</p>
+  <div class="myPostContainer">
+    <button @click="toggleMyPostList">
+      {{ isListVisible ? 'Hide my posts' : 'Show my posts' }}
+    </button>
+    <div class="toggleContainer" v-if="isListVisible">
+      <h1>My Posts List</h1>
+      <ul v-if="!listIsEmpty">
+        <li v-for="post in myPosts" :key="post.id " class="listItem">
+          <div @click.self="goToPost(post.id)" class="goToPage">
+            ID: {{post.id}}
+            <br/>
+            title: {{ post.title }}
+          </div>
+          <div class="gotToEdit" @click.stop="goToEditPost(post.id)">
+            Edit
+          </div>
+        </li>
+      </ul>
+      <div v-else class="listItem">
+        <p style="padding: 6px">the user has no bookmarked Items</p>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.myPostContainer{
+  flex-direction: column;
+}
 .toggleContainer{
   width: 350px;
   border-style: dashed;
