@@ -112,6 +112,9 @@ const submitForm = async () => {
 
 <template>
   <form @submit.prevent="submitForm" class="form-container">
+    <div class="form-header textShadow">
+      <h2>Post Creation</h2>
+    </div>
     <!-- Title field with validation error -->
     <div class="form-field">
       <input
@@ -161,6 +164,13 @@ const submitForm = async () => {
 </template>
 
 <style scoped>
+.form-header{
+  background-color: var(--color-background-box-secondary);
+  color: var(--color-text);
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center; /* Centers the text content inside the header */
+}
 /* Container for the entire form */
 .form-container {
   display: flex;
@@ -168,12 +178,18 @@ const submitForm = async () => {
   gap: 15px; /* Adds spacing between fields */
   max-width: 400px; /* Limits form width */
   margin: 0 auto; /* Centers the form horizontally */
+  background-color: var(--color-background-soft);
+  color: var(--color-text-alt);
+
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 /* Styles for individual fields */
 .form-field {
   display: flex;
   flex-direction: column;
+  margin: 0 10px;
 }
 
 /* Input fields */
@@ -201,6 +217,7 @@ button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  margin: 0 auto 10px auto;
 }
 
 button:hover {

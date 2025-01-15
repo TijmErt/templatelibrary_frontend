@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import NotificationGroupBox from '../src/components/NotificationGroupBox.vue'
+import ToggleUsers from '../src/components/ToggleUsers.vue'
+import TempShowBookmarkList from '../src/components/TempShowBookmarkList.vue'
+import TempShowMyPostsList from '../src/components/TempShowMyPostsList.vue'
 </script>
 
 <template>
-  <header>
+  <header class="header textShadow">
     <h1>TemplateLibrary</h1>
     <div class="wrapper">
       <nav>
@@ -11,11 +15,22 @@ import { RouterLink, RouterView } from 'vue-router'
         <RouterLink to="/Post/Creation">Post Creation</RouterLink>
       </nav>
     </div>
+
   </header>
+  <NotificationGroupBox/>
 
   <RouterView />
 
   <footer>
+    <div style="text-align: center;  border-style: groove; padding: 10px;">
+      <h3>Development Tools for User Registry</h3>
+      <div style="display: flex; justify-content: space-evenly; align-content: center;">
+        <ToggleUsers/>
+        <TempShowBookmarkList/>
+        <TempShowMyPostsList/>
+      </div>
+    </div>
+
     created by 486333
   </footer>
 </template>
@@ -23,13 +38,18 @@ import { RouterLink, RouterView } from 'vue-router'
 <style scoped>
 h1{
   font-size: 25px;
+
 }
 header {
   line-height: 1.5;
   max-height: 100vh;
   margin-bottom: 2em;
+  background-color: var(--color-background-box);
+  border-radius: 0 0 5px 5px;
 }
-
+footer{
+  margin-top: 4em;
+}
 .logo {
   display: block;
   margin: 0 auto 2rem;
@@ -45,7 +65,9 @@ nav {
 }
 
 nav a.router-link-exact-active {
-  color: var(--color-text);
+  color: rgb(171, 141, 1);;
+  text-shadow: 0px 5px 4px rgb(0, 0, 0) ;
+  text-decoration-line: underline;
 }
 
 nav a.router-link-exact-active:hover {
@@ -55,7 +77,6 @@ nav a.router-link-exact-active:hover {
 nav a {
   display: inline-block;
   padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
 }
 
 nav a:first-of-type {
@@ -66,7 +87,8 @@ nav a:first-of-type {
   header {
     display: block;
     place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+    padding: 0 1rem;
+    box-shadow: 0px 10px 5px rgba(0, 0, 0, 0.1);
   }
 
   .logo {

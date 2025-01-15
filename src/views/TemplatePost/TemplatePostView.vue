@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue'
 import { useQuery } from '@vue/apollo-composable'
 import { GET_TEMPLATE_POST } from '../../graphql/templatePostGraphQL';
-import { useRoute } from 'vue-router';
+import { useRoute,onBeforeRouteUpdate } from 'vue-router';
 import apiClient from '../../axios';
 import { VuePDF, usePDF} from '@tato30/vue-pdf'
 import '@tato30/vue-pdf/style.css'
@@ -20,14 +20,22 @@ interface TemplatePost{
       id: string,
       name: string,
     }[]
+    avgRating:number,
 }
 const route = useRoute()
+const currentPostID = route.params.id;
 const getTemplatePost = ref<TemplatePost | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
+// ...
 
-const { result, loading: queryLoading, error: queryError,  } = useQuery(GET_TEMPLATE_POST, {
-  id:  route.params.id ,
+onBeforeRouteUpdate(async (to) => {
+  // react to route changes...
+  refetch({id: to.params.id})
+})
+
+const { result, loading: queryLoading, error: queryError, refetch } = useQuery(GET_TEMPLATE_POST, {
+  id:  currentPostID ,
 },{fetchPolicy:'cache-and-network'})
 const givenPDF = ref({})
 const { pdf, pages } = usePDF(givenPDF)
@@ -60,6 +68,7 @@ watch(result, value => {
     fetchPDF(getTemplatePost.value.fileKey)
   }
 })
+const value= ref<boolean>(true)
 </script>
 <template>
   <div class="pageContainer">
@@ -74,21 +83,33 @@ watch(result, value => {
       </div>
 
       <div v-else-if="getTemplatePost">
-        <h2>{{ getTemplatePost.title }}</h2>
-        <p>{{ getTemplatePost.description }}</p>
-        <p>Author: {{ getTemplatePost.author.userName }}</p>
-        <p>Created on: {{ getTemplatePost.createdDate }}</p>
-        <br>
-        <div v-for="category in getTemplatePost.categories" v-bind:key="category.id">
-          {{category.id}}
-          {{category.name}}
+        <div class="contentHeader textShadow">
+          <h2>{{ getTemplatePost.title }}</h2>
+          <p>rating: {{getTemplatePost.avgRating}}</p>
+          <p>Author: {{ getTemplatePost.author.userName }}</p>
+        </div>
+
+        <div class="contentBody">
+          <div class="categoryBody">
+            <div v-for="category in getTemplatePost.categories" v-bind:key="category.id" class="categoryPart">
+              {{category.name}}
+            </div>
+          </div>
+
+          <div class="descriptionBody">
+            <p>{{ getTemplatePost.description }}</p>
+            <br/>
+            <hr/>
+            <i>Created on: {{ getTemplatePost.createdDate }}</i>
+          </div>
+
         </div>
       </div>
     </div>
-    <div class="pdfContainer OrderLeft" >
-      <div v-if="givenPDF" >
+    <div class="pdfContainer OrderLeft " >
+      <div v-if="givenPDF"  >
         <div v-for="page in pages" :key="page">
-          <VuePDF class="vue-pdf" :pdf="pdf" :page="page" :text-layer="true" :annotation-layer="true" fit-parent/>
+          <VuePDF class="vue-pdf" :pdf="pdf" :page="page" :text-layer="true" :annotation-layer="true" :fit-parent="value" />
         </div>
       </div>
     </div>
@@ -96,19 +117,69 @@ watch(result, value => {
 </template>
 
 <style scoped>
+
 .pageContainer{
   width: 100%;
   flex-direction: column;
 }
-.pdfContainer{
-  overflow-y: auto;
-  max-height: 500px;
 
+.pdfContainer{
+  overflow: hidden;
+  max-height: 500px;
+  border-radius: var(--radius-standard);
+  border-width: 0;
+  box-shadow: var(--shadow-base-inset);
+  padding: 20px;
 }
+
+.pdfContainer:hover{
+  overflow: auto;
+}
+
 .contentContainer {
   max-height: fit-content;
-  max-width: 700px;
+  max-width: fit-content;
+  background-color: var(--color-background-soft);
+  border-radius: var(--radius-standard);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
+
+.contentHeader{
+  background-color: var(--color-background-box-secondary);
+  padding: 10px;
+  border-radius: var(--radius-standard);
+  margin-bottom: 10px;
+}
+
+.contentBody{
+  padding: 10px;
+  color: var(--color-text-alt);
+}
+
+.categoryBody{
+  width: 95%;
+  margin: 0 auto 10px auto;
+  background-color: var(--color-background-box-secondary);
+  padding: 10px;
+  border-radius: var(--radius-standard);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.categoryPart{
+  border-radius: 20px;
+  border-width: 1px;
+  padding: 3px 7px;
+  background-color: var(--color-background);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.descriptionBody{
+  margin: 0 auto 10px auto;
+  padding: 10px;
+}
+
 @media (min-width: 1024px) {
   .pageContainer{
     width: 100%;
@@ -118,9 +189,13 @@ watch(result, value => {
 
   }
   .pdfContainer{
-    overflow-y: auto;
     max-height: 600px;
     max-width: 700px;
+    overflow-x: hidden;
+  }
+  .pdfContainer:hover{
+    overflow: auto;
+    overflow-x: hidden;
   }
   .contentContainer {
     max-height: fit-content;

@@ -98,11 +98,14 @@ const previousPage = () => {
   }
 }
 const goToPost = (postId: string) =>{
-  router.push({ name: 'TemplatePost View', params: { id: postId } });
+  router.push({ name: 'TemplatePost View', params: { id: postId } ,force:true});
 }
 </script>
 <template>
-  <h1>Template Library Searcher</h1>
+  <div class="header-overview textShadow">
+    <h1>Template Library Searcher</h1>
+    <h2>Results: {{pageInfo.total}}</h2>
+  </div>
 
   <div v-if="loading">
     <p>Loading...</p>
@@ -131,14 +134,41 @@ const goToPost = (postId: string) =>{
 </template>
 
 <style scoped>
+.header-overview{
+  background-color: var(--color-background-box-secondary);
+  border-radius: 5px 5px 0 0;
+  padding: 5px 15px
+}
 .postsBox{
   width: 100%;
   display: grid;
   grid-template-columns: auto auto auto;
-  grid-gap: 10px;
+  grid-gap: 2rem;
+  background-color: var(--color-background-soft);
+  padding: 25px;
+  border-radius: 0 0 5px 5px;
+  border-collapse: collapse;
+  border-style: inset;
+  border-color: var(--vt-c-black);
+  border-width: 0;
+  box-shadow: 2px 7px 5px rgba(0, 0, 0, 0.3) inset, -2px 0px 5px rgba(0, 0, 0, 0.3) inset;
 }
 .postContainer{
   padding: 10px;
   border-style: outset;
+  border-width: 0;
+  background-color: var(--color-background);
+  border-color: var(--vt-c-black);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  color: var(--color-text-alt);
+
+}
+.postContainer:hover{
+  cursor: pointer;
+}
+
+.pagination{
+  color: var(--color-text-alt);
+  margin: 1rem auto 0 auto;
 }
 </style>

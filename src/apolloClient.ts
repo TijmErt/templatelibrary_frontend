@@ -3,7 +3,7 @@ import createUploadLink from 'apollo-upload-client/createUploadLink.mjs'
 
 const cache = new InMemoryCache()
 const uploadLink = createUploadLink({
-  uri: 'http://localhost:8080/graphql', // Update with your server URL
+  uri: import.meta.env.VITE_SQL_URL + '/graphql', // Update with your server URL
 });
 
 const token = btoa("user:password")
@@ -23,3 +23,4 @@ export const apolloClient = new ApolloClient({
   cache,
   link: concat(authMiddleware,uploadLink),
 })
+
