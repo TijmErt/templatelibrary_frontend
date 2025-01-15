@@ -13,8 +13,11 @@ RUN npm install --ignore-scripts
 # Copy source code
 COPY . .
 
+ARG VITE_SQL_URL
+ARG VITE_NOSQL_URL
+
 # Build the application
-RUN npm run build
+RUN VITE_SQL_URL=$VITE_SQL_URL VITE_NOSQL_URL=$VITE_NOSQL_URL npm run build
 
 # Stage 2: Serve the app
 FROM nginx:stable-alpine
