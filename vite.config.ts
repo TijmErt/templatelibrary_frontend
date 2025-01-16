@@ -18,6 +18,9 @@ export default defineConfig(  {
     }
   },
   define:{
-    'import.meta.env.VITE_SQL_URL': JSON.stringify(process.env.VITE_SQL_URL),
+    'process.env': process.env,
+    VITE_SQL_URL: process.env.VITE_SQL_URL,
+    VITE_NOSQL_URL:process.env.VITE_NOSQL_URL,
+    VITE_WEBSOCKET_URL: process.env.VITE_WEBSOCKET_URL,
   }
 })

@@ -25,7 +25,7 @@ const WebSocketConnect = () => {
   }
 
   stompClient = new Client({
-    brokerURL: 'ws://localhost:8080/ws',
+    brokerURL: import.meta.env.VITE_WEBSOCKET_URL +'/ws',
     connectHeaders: {
       Authorization: `Basic ` + btoa('user:password'), // Add the JWT token to the headers
     },

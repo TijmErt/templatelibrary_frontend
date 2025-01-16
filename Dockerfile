@@ -13,11 +13,8 @@ RUN npm install --ignore-scripts
 # Copy source code
 COPY . .
 
-ARG VITE_SQL_URL
-ARG VITE_NOSQL_URL
-
 # Build the application
-RUN VITE_SQL_URL=$VITE_SQL_URL VITE_NOSQL_URL=$VITE_NOSQL_URL npm run build
+RUN npm run build
 
 # Stage 2: Serve the app
 FROM nginx:stable-alpine
@@ -28,6 +25,8 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # Copy a custom Nginx configuration file (optional)
 COPY nginx.conf /etc/nginx/nginx.conf
 
+COPY env.sh /docker-entrypoint.d/env.sh
+RUN chmod +x /docker-entrypoint.d/env.sh
 # Expose the port Nginx will run on
 EXPOSE 80
 
